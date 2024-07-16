@@ -1,7 +1,8 @@
 package com.example.dao;
 
 import com.example.entity.KechengInfo;
-import com.example.entity.ZhuanyeInfo;
+import com.example.entity.XuankeInfo;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.springframework.stereotype.Repository;
 import tk.mybatis.mapper.common.Mapper;
@@ -9,13 +10,19 @@ import tk.mybatis.mapper.common.Mapper;
 import java.util.List;
 
 @Repository
-public interface KechengInfoDao extends Mapper<KechengInfo> {
-    @Select("select * from kecheng_info where name = #{name} ")
-   KechengInfo findByName(String name);
+public interface XuankeInfoDao extends Mapper<XuankeInfo> {
+    @Select("select * from xuanke_info where name = #{name} ")
+    XuankeInfo findByName(String name);
 
-    @Select("select * from kecheng_info where name like  concat('%',#{name},'%')")
-    List<KechengInfo> findByNamePage(String name);
+    @Select("select * from xuanke_info where name like  concat('%',#{name},'%')")
+    List<XuankeInfo> findByNamePage(String name);
 
-    @Select("select * from kecheng_info where name like  concat('%',#{search},'%')")
-    List<KechengInfo> find(String search);
+    //从课程名称和学生id找出有咩有选过
+    @Select("select * from xuanke_info where name = #{name}  and xueshengid = #{xueshengid}" )
+    XuankeInfo find(@Param("name") String name, @Param("xueshengid") Long xueshengid);
+
+    List<XuankeInfo> findBycondition(@Param("teacherid") Long teacherid,@Param("xueshengid")Long xueshengid);
+
+//    @Select("select * from xuanke_info where name like  concat('%',#{search},'%')")
+//    List<XuankeInfo> find2(String search);
 }

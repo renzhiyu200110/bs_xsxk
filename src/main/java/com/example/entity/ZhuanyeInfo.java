@@ -2,17 +2,27 @@ package com.example.entity;
 
 import javax.persistence.*;
 
-@Table(name = "xueyuan_info")
-public class XueyuanInfo {
+@Table(name = "zhuanye_info")
+public class ZhuanyeInfo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(name = "name")
     private String name;
-    @Column(name = "discription")
-    private String discription;
-    @Column(name = "score")
-    private Integer score;
+    @Column(name = "department")
+    private String department;
+    @Column(name = "xueyuanid")
+    private Integer xueyuanid;
+    @Transient
+private String xueyuanName;
+
+    public String getXueyuanName() {
+        return xueyuanName;
+    }
+
+    public void setXueyuanName(String xueyuanName) {
+        this.xueyuanName = xueyuanName;
+    }
 
     public Long getId() {
         return id;
@@ -30,19 +40,19 @@ public class XueyuanInfo {
         this.name = name;
     }
 
-    public String getDiscription() {
-        return discription;
+    public String getDepartment() {
+        return department;
     }
 
-    public void setDiscription(String discription) {
-        this.discription = discription;
+    public void setDepartment(String department) {
+        this.department = department;
     }
 
-    public Integer getScore() {
-        return score;
+    public Integer getXueyuanid() {
+        return xueyuanid;
     }
 
-    public void setScore(Integer score) {
-        this.score = score;
+    public void setXueyuanid(Integer xueyuanid) {
+        this.xueyuanid = xueyuanid;
     }
 }

@@ -94,8 +94,8 @@
                                             class="mini-sub-pro">专业信息</span></a>
                                 </li>
                                 <li>
-                                    <a href="classInfo.html"><i class="fa fa-table sub-icon-mg"
-                                                                aria-hidden="true"></i><span
+                                    <a href="kechengInfo.html"><i class="fa fa-table sub-icon-mg"
+                                                                  aria-hidden="true"></i><span
                                             class="mini-sub-pro">课程信息</span></a>
                                 </li>
 
@@ -222,30 +222,36 @@
         },
         methods: {
             loadData() {
-                axios.get("/getUser").then(res =>{
-                    if (res.data.code=='0'){
-                        this.entity=res.data.data;
+                axios.get("/getUser").then(res => {
+                    if (res.data.code == '0') {
+                        this.entity = res.data.data;
 
-                    }else{
-                        msg("error",res.data.msg);
+                    } else {
+                        msg("error", res.data.msg);
                     }
                 })
             },
-            update(){
-                axios.put("/adminInfo",this.entity).then(res =>{
-                    if (res.data.code==='0'){
-                        msg("success","保存成功");
+            update() {
+                axios.put("/adminInfo", this.entity).then(res => {
+                    if (res.data.code === '0') {
+                        msg("success", "保存成功");
                         this.loadData();
 
-                    }else{
-                        msg("error",res.data.msg);
+                    } else {
+                        msg("error", res.data.msg);
                     }
                 })
             },
 
-
             logout() {
-
+                logout();
+                //  axios.get("/logout").then(res => {
+                //      if (res.data.code == '0') {
+                //          window.location = "/end/page/login.html";
+                //      } else {
+                //          msg("error", res.data.msg);
+                //      }
+                //  })
             }
         }
     })

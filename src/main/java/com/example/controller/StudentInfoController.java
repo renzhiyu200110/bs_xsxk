@@ -1,9 +1,9 @@
 package com.example.controller;
 
 import com.example.common.Result;
-import com.example.entity.AdminInfo;
+import com.example.entity.StudentInfo;
 import com.example.entity.TeacherInfo;
-import com.example.service.AdminInfoService;
+import com.example.service.StudentInfoService;
 import com.example.service.TeacherInfoService;
 import com.github.pagehelper.PageInfo;
 import org.springframework.web.bind.annotation.*;
@@ -12,13 +12,44 @@ import javax.annotation.Resource;
 import java.util.List;
 
 @RestController
-@RequestMapping("/teacherInfo")
-public class TeacherInfoController {
+@RequestMapping("/studentInfo")
+public class StudentInfoController {
     @Resource
-    private TeacherInfoService teacherInfoService;
-@PutMapping
-    public Result update(@RequestBody TeacherInfo teacherInfo){
-    teacherInfoService.update(teacherInfo);
-    return Result.success();
-}
+    private StudentInfoService studentInfoService;
+
+    @PutMapping
+    public Result update(@RequestBody StudentInfo studentInfo) {
+        studentInfoService.update(studentInfo);
+        return Result.success();
+    }
+
+    @PostMapping
+    public Result add(@RequestBody StudentInfo studentInfo) {
+        studentInfoService.add(studentInfo);
+        return Result.success();
+    }
+
+    @GetMapping
+    public Result findAll() {
+        List<StudentInfo> list = studentInfoService.findAll();
+        return Result.success(list);
+    }
+
+    @DeleteMapping("/{id}")
+    public Result deleteById(@PathVariable Long id) {
+        studentInfoService.deleteById(id);
+        return Result.success();
+    }
+
+    @GetMapping("/page")
+    public Result findPage(@RequestParam Integer pageNum, @RequestParam Integer pageSize) {
+        PageInfo<StudentInfo> info = studentInfoService.findPage(pageNum, pageSize);
+        return Result.success(info);
+    }
+
+    @GetMapping("/page/{name}")
+    public Result findPage(@RequestParam Integer pageNum, @RequestParam Integer pageSize, @PathVariable String name) {
+        PageInfo<StudentInfo> info = studentInfoService.findPageName(pageNum, pageSize, name);
+        return Result.success(info);
+    }
 }

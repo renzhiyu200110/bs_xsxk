@@ -1,9 +1,12 @@
 package com.example.service;
 
 import cn.hutool.core.util.ObjectUtil;
+import com.example.dao.KechengInfoDao;
+import com.example.dao.TeacherInfoDao;
 import com.example.dao.XueyuanInfoDao;
 import com.example.dao.ZhuanyeInfoDao;
-import com.example.entity.StudentInfo;
+import com.example.entity.KechengInfo;
+import com.example.entity.TeacherInfo;
 import com.example.entity.XueyuanInfo;
 import com.example.entity.ZhuanyeInfo;
 import com.example.exception.CustomException;
@@ -15,26 +18,35 @@ import javax.annotation.Resource;
 import java.util.List;
 
 @Service
-public class ZhuanyeInfoService {
+public class KechengInfoService {
+    @Resource
+    private KechengInfoDao kechengInfoDao;
+    @Resource
+    private XueyuanInfoDao xueyuanInfoDao;
     @Resource
     private ZhuanyeInfoDao zhuanyeInfoDao;
-@Resource
-private XueyuanInfoDao xueyuanInfoDao;
+    @Resource
+    private TeacherInfoDao teacherInfoDao;
 
-    public void add(ZhuanyeInfo zhuanyeInfo) {
-        ZhuanyeInfo info = zhuanyeInfoDao.findByName(zhuanyeInfo.getName());
-        if(ObjectUtil.isNotEmpty(info)){
-            throw new CustomException("-1","学院名称已存在");
+    public void add(KechengInfo kechengInfo) {
+        KechengInfo info = kechengInfoDao.findByName(kechengInfo.getName());
+        if (ObjectUtil.isNotEmpty(info)) {
+            throw new CustomException("-1", "课程名称已存在");
         }
-        zhuanyeInfoDao.insertSelective(zhuanyeInfo);
+        kechengInfoDao.insertSelective(kechengInfo);
     }
-    public List<ZhuanyeInfo> findAll() {
-        List<ZhuanyeInfo> list = zhuanyeInfoDao.selectAll();
+
+    public List<KechengInfo> findAll() {
+        List<KechengInfo> list = kechengInfoDao.selectAll();
 //方式1
-        for (ZhuanyeInfo zhuanyeInfo : list) {
-            if (ObjectUtil.isNotEmpty(zhuanyeInfo.getXueyuanid())) {
-                XueyuanInfo xueyuanInfo = xueyuanInfoDao.selectByPrimaryKey(zhuanyeInfo.getXueyuanid());
-                zhuanyeInfo.setXueyuanName(xueyuanInfo.getName());
+        for (KechengInfo kechengInfo : list) {
+            if (ObjectUtil.isNotEmpty(kechengInfo.getZhuanyeid())) {
+                ZhuanyeInfo zhuanyeInfo = zhuanyeInfoDao.selectByPrimaryKey(kechengInfo.getZhuanyeid());
+                kechengInfo.setZhuanyeName(zhuanyeInfo.getName());
+            }
+            if (ObjectUtil.isNotEmpty(kechengInfo.getTeacherid())) {
+                TeacherInfo teacherInfo = teacherInfoDao.selectByPrimaryKey(kechengInfo.getTeacherid());
+                kechengInfo.setTeacherName(teacherInfo.getName());
             }
         }
         return list;
@@ -42,38 +54,46 @@ private XueyuanInfoDao xueyuanInfoDao;
 //        return zhuanyeInfoDao.selectAll();
     }
 
-    public void update(ZhuanyeInfo zhuanyeInfo) {
-        zhuanyeInfoDao.updateByPrimaryKeySelective(zhuanyeInfo);
+    public void update(KechengInfo kechengInfo) {
+        kechengInfoDao.updateByPrimaryKeySelective(kechengInfo);
     }
 
     public void deleteById(Long id) {
-        zhuanyeInfoDao.deleteByPrimaryKey(id);
+        kechengInfoDao.deleteByPrimaryKey(id);
     }
 
 
-    public List<ZhuanyeInfo> find(String search) {
-        return zhuanyeInfoDao.find(search);
+    public List<KechengInfo> find(String search) {
+        return kechengInfoDao.find(search);
     }
 
-    public PageInfo<ZhuanyeInfo> findPage(Integer pageNum, Integer pageSize) {
-        PageHelper.startPage(pageNum,pageSize);//开启分页,下面就跟根据这两个来查对应数据
-        List<ZhuanyeInfo>infos = zhuanyeInfoDao.selectAll();
-        for (ZhuanyeInfo zhuanyeInfo : infos) {
-            if (ObjectUtil.isNotEmpty(zhuanyeInfo.getXueyuanid())) {
-                XueyuanInfo xueyuanInfo = xueyuanInfoDao.selectByPrimaryKey(zhuanyeInfo.getXueyuanid());
-                zhuanyeInfo.setXueyuanName(xueyuanInfo.getName());
+    public PageInfo<KechengInfo> findPage(Integer pageNum, Integer pageSize) {
+        PageHelper.startPage(pageNum, pageSize);//开启分页,下面就跟根据这两个来查对应数据
+        List<KechengInfo> infos = kechengInfoDao.selectAll();
+        for (KechengInfo kechengInfo : infos) {
+            if (ObjectUtil.isNotEmpty(kechengInfo.getZhuanyeid())) {
+                ZhuanyeInfo zhuanyeInfo = zhuanyeInfoDao.selectByPrimaryKey(kechengInfo.getZhuanyeid());
+                kechengInfo.setZhuanyeName(zhuanyeInfo.getName());
+            }
+            if (ObjectUtil.isNotEmpty(kechengInfo.getTeacherid())) {
+                TeacherInfo teacherInfo = teacherInfoDao.selectByPrimaryKey(kechengInfo.getTeacherid());
+                kechengInfo.setTeacherName(teacherInfo.getName());
             }
         }
         return PageInfo.of(infos);
     }
 
-    public PageInfo<ZhuanyeInfo> findPageName(Integer pageNum, Integer pageSize, String name) {
-        PageHelper.startPage(pageNum,pageSize);
-        List<ZhuanyeInfo>infos=zhuanyeInfoDao.findByNamePage(name);
-        for (ZhuanyeInfo zhuanyeInfo : infos) {
-            if (ObjectUtil.isNotEmpty(zhuanyeInfo.getXueyuanid())) {
-                XueyuanInfo xueyuanInfo = xueyuanInfoDao.selectByPrimaryKey(zhuanyeInfo.getXueyuanid());
-                zhuanyeInfo.setXueyuanName(xueyuanInfo.getName());
+    public PageInfo<KechengInfo> findPageName(Integer pageNum, Integer pageSize, String name) {
+        PageHelper.startPage(pageNum, pageSize);
+        List<KechengInfo> infos = kechengInfoDao.findByNamePage(name);
+        for (KechengInfo kechengInfo : infos) {
+            if (ObjectUtil.isNotEmpty(kechengInfo.getZhuanyeid())) {
+                ZhuanyeInfo zhuanyeInfo = zhuanyeInfoDao.selectByPrimaryKey(kechengInfo.getZhuanyeid());
+                kechengInfo.setZhuanyeName(zhuanyeInfo.getName());
+            }
+            if (ObjectUtil.isNotEmpty(kechengInfo.getTeacherid())) {
+                TeacherInfo teacherInfo = teacherInfoDao.selectByPrimaryKey(kechengInfo.getTeacherid());
+                kechengInfo.setTeacherName(teacherInfo.getName());
             }
         }
         return PageInfo.of(infos);

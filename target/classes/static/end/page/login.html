@@ -12,6 +12,7 @@
         [v-cloak] {
             display: none;
         }
+
         .table th, .table td {
             text-align: center !important;
             vertical-align: middle !important;
@@ -20,9 +21,9 @@
 </head>
 <body style="background:url('../img/bg.jpg') no-repeat; background-size: cover;">
 <div id="app" class="container" v-cloak>
-    <div class="row text-center " style="padding-top:120px;">
+    <div class="row text-center " style="padding-top:150px;">
         <div class="col-md-12">
-           <h2 style="color: white">欢迎登录学生选课管理系统</h2>
+            <h2 style="color: white">欢迎登录学生选课管理系统</h2>
         </div>
     </div>
     <div class="row ">
@@ -51,9 +52,16 @@
                             <option value="3">学生</option>
                         </select>
                     </div>
+<!--                    //验证码部分-->
+                    <div class="form-group input-group">
+                        <span class="input-group-addon"><i class="fa fa-check-square"></i></span>
+                        <input type="text" class="form-control" style="width: 150px;margin-right: 5px"
+                               v-model="user.vercode" placeholder="输入验证码">
+                        <img  :src="captchaUrl" @click="clickimg()" width="130px" height="33px"/>
+                    </div>
 
                     <div style="text-align: center">
-                        <a href="javascript:void(0)" class="btn btn-primary" @click="login">登录</a>
+                        <a href="javascript:void(0)" class="btn btn-block btn-primary" @click="login">登录</a>
                     </div>
                     <hr/>
                     <div style="text-align: center">
@@ -75,13 +83,17 @@
     new Vue({
         el: "#app",
         data: {
-            user: {}
-
+            user: {},
+            captchaUrl:"/captcha"
         },
         created: function () {
 
         },
         methods: {
+            clickimg(){
+                this.captchaUrl = "/captcha?"+Math.random();
+                this.user.vercode="";
+            },
             login() {
                 axios.post("/login", this.user).then(res => {
                     if (res.data.code == '0') {
@@ -98,6 +110,7 @@
                         }
                     } else {
                         alert(res.data.msg);
+                        this.clickimg();
                     }
                 })
             }

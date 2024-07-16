@@ -40,6 +40,15 @@ function personalPage() {
 	}
 
 }
+function logout(){
+    axios.get("/logout").then(res => {
+        if (res.data.code == '0') {
+            window.location = "/end/page/login.html";
+        } else {
+            msg("error", res.data.msg);
+        }
+    })
+}
 
 
 /**

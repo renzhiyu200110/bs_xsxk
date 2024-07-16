@@ -2,8 +2,8 @@ package com.example.entity;
 
 import javax.persistence.*;
 
-@Table(name = "kecheng_info")
-public class KechengInfo {
+@Table(name = "xuanke_info")
+public class XuankeInfo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -19,33 +19,22 @@ public class KechengInfo {
     private Long teacherid;
     @Column(name = "kaiban")
     private Integer kaiban;
-    @Column(name = "yixuan")
-    private Integer yixuan;
+    @Column(name = "xueshengid")
+    private Long xueshengid;
+
+    @Column(name = "status")
+    private String status;
     @Column(name = "time")
     private String time;
     @Column(name = "location")
     private String location;
     @Transient
-private String teacherName;
-
-    public String getTeacherName() {
-        return teacherName;
-    }
-
-    public void setTeacherName(String teacherName) {
-        this.teacherName = teacherName;
-    }
-
-    public String getZhuanyeName() {
-        return zhuanyeName;
-    }
-
-    public void setZhuanyeName(String zhuanyeName) {
-        this.zhuanyeName = zhuanyeName;
-    }
-
+    private String teacherName;
     @Transient
     private String zhuanyeName;
+    @Transient
+    private String xueshengName;
+
     public Long getId() {
         return id;
     }
@@ -102,12 +91,20 @@ private String teacherName;
         this.kaiban = kaiban;
     }
 
-    public Integer getYixuan() {
-        return yixuan;
+    public Long getXueshengid() {
+        return xueshengid;
     }
 
-    public void setYixuan(Integer yixuan) {
-        this.yixuan = yixuan;
+    public void setXueshengid(Long xueshengid) {
+        this.xueshengid = xueshengid;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     public String getTime() {
@@ -124,5 +121,29 @@ private String teacherName;
 
     public void setLocation(String location) {
         this.location = location;
+    }
+
+    public String getTeacherName() {
+        return teacherName;
+    }
+
+    public void setTeacherName(String teacherName) {
+        this.teacherName = teacherName;
+    }
+
+    public String getZhuanyeName() {
+        return zhuanyeName;
+    }
+
+    public void setZhuanyeName(String zhuanyeName) {
+        this.zhuanyeName = zhuanyeName;
+    }
+
+    public String getXueshengName() {
+        return xueshengName;
+    }
+
+    public void setXueshengName(String xueshengName) {
+        this.xueshengName = xueshengName;
     }
 }

@@ -1,9 +1,6 @@
 package com.example.entity;
 
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 public class Account {
     @Id
@@ -19,6 +16,26 @@ public class Account {
     private String age;
     @Column(name = "level")
     private Integer level;
+    @Transient
+    private String newpassword;
+    @Transient
+    private String vercode;
+
+    public String getVercode() {
+        return vercode;
+    }
+
+    public void setVercode(String vercode) {
+        this.vercode = vercode;
+    }
+
+    public String getNewpassword() {
+        return newpassword;
+    }
+
+    public void setNewpassword(String newpassword) {
+        this.newpassword = newpassword;
+    }
 
     public Long getId() {
         return id;
